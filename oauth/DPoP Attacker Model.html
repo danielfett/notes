@@ -384,16 +384,24 @@ code {
 <p>If TLS termination is done at a separate component at the resource server, that component can become compromised, for example by exploting a buffer overflow attack in the reverse proxy:</p>
 <img src="https://plantuml.server.d3f.me/svg/hLF1JeGm4BttAvfuTI5BF14aovvDD5kENhhiA8tT5gT5LxxUTgahHRaOJqFVcxxtXe6DiHnjVvHaStdgN1MDwBYoT8lwtG16M2C5A9iq-XZ15IDxVQ8xjevWTwxl6BsIuhcrZKOkvpG3V1CD4507wXLcV4P8I45NvSGyfymd9j-8vqDhJglUjWFTmMiFnauLAhP45gj0SqUhwtCPICL-w6eK0xT2AoTXEgqCB4LSw8upUyjQlu2w91ezfq9V_Ay2uplEwSCzgsbhRMVoD4MpzdoAO7IF3JogA4nEYoVjjwcbnjkzxA7S0aStmars-XYI92bItr2IiC7H9onhukMip0Z-hrKMNqCubBFvicY-eF5dxutx_iu_mbW_0G00" alt="uml diagram">
 <hr>
-<h2 id="stolen-token-offline-xss">Stolen Token (Offline-XSS)</h2>
+<h2 id="stolen-token-offline-xss">Stolen Token (Offline XSS)</h2>
 <p>An attacker can leverage an XSS attack to exfiltrate the access token from a single page application.</p>
 <img src="https://plantuml.server.d3f.me/svg/dL8zJyCm4DtzAwooqaH2J568aaeiBA2aOnVZNebLrmxdirhowt5e4d2G69Zkh7Vluquk7GaaVzAidBikL2LL9mpn3Tgp0-J2yTNOxymvvKyDbrg1eLKqNZNHKn09UGHCf3tn6wtUMf8MHMnHDuonoMTT18sCLvxQdjVmxi7H3ERh4HO1DhTVfMTLCx36cIlLeke5AMk2XEkiSR0qsDeZcDbW8J61lwbreBuyDrlU4dKkIrDqmsufWhCU9UnCP9_n_633Yj9gYm-lsaEn0O51w_xkyj4dIPAdmq3nxH5CVbujLa3O5u-NWzA4Wk2QaqL77ZCkINzb7YFyEte9PZzycwdv1000" alt="uml diagram">
 <hr>
-<h2 id="online-xss-out-of-scope">Online-XSS (out of Scope?)</h2>
+<h2 id="online-xss-out-of-scope">Online XSS (out of Scope?)</h2>
+<p>If a user's browser is online and an attacker has injected JavaScript code into the client's SPA,  the attacker can use the token without exfiltrating it first. There is most likely no defense against this threat except preventing XSS.</p>
+<img src="https://plantuml.server.d3f.me/svg/dP4zJyCm48Pt_mghCuqbn1I5AEd8GXLtx6BSGxL8VUcThK9-FGua4GaI0zETzNuyEhdYO2Z4IokgUUlITDPrnWUv8xmna3GiD-D-z3SbdxIqhGCVDWjxhHVFHWiXfefjcUHSrZ6SUzd0DGA7MIosesoIxE--HYzgFQH6ptSKoVKcEFIfWZlq36l00T_0pu1LnIJ-ZZOfkd_M1taEeUDSAUBCuaKHC4QoSFGBV2wBLqmdMcoH7b_Q2EKE3AMkX_ltZpxBia8DXdBD-1aZE9L_CSUAVwChyAVXHwVb4m00" alt="uml diagram">
+<hr>
+<h2 id="precomputed-proofs">Precomputed Proofs</h2>
 <p>If the attacker is able to precompute DPoP tokens, or is able to exfiltrate the secret key needed for generating DPoP proofs along with the access token, DPoP does not protect the access token if no server-generated nonce is used in the proof.</p>
 <img src="https://plantuml.server.d3f.me/svg/dLAnJiD03Dtp5LPPQI8Xfgf4JGKB2r7JiSjnTUYfrtFmEMh9rtE1990WTM0wMy_lFJ_hLbuKItsoqMgegl0QRIhb1DPCPuyCoiEigtVkdC1p0TeQT38RZMV5g5KYIX-HOqqdkB7cxI2QM8qjDaKKHRtFF0qQ2yXgEJImmVSQlGpWSjx1Ai3kzkjfegneMTtCDvNOD4eCkI3XAt8UfmPREg8R32OIFVYNkWdK_ANOma6ayeiaOTzcInWzrQnnvqRs2rYM529giiGFhxR6T8sAWzRztUMZYUDucRG3wOz7CFbzjR42upvzkfJ62Yj1g1YrihgseTd3Oquvv4nK-cXq-6xlgT2r7DrQ_uwpGhTllr9VV080" alt="uml diagram">
 <blockquote>
 <p>We should think about requiring/allowing for a server-sent nonce via the WWW-Authenticate header.</p>
 </blockquote>
+<h2 id="exfiltration-from-otherwise-secure-channel">Exfiltration from Otherwise Secure Channel</h2>
+<p>Attacks on TLS might allow for the recovery of strings in encrypted messages that are repeated in multiple messages. One example would be the BREACH attacks against HTTP compression.</p>
+<img src="https://plantuml.server.d3f.me/svg/dP9DJiCm48NtFeKbjZIH4AieH4alG1LtoSQu0x7gUjBnH41EJmnfYGNPiB8zR_ozvvywi2OUJaxKrra_ZTRONdkMMyAt09JKZBFWEJDuIigDIfQQMPiZKEoJDyw-TcoGT8flbH1Yzf2RQe4kf8fvn4ybwdDh8Pk1kr6sS1uWy9BGg3MntCoodcH_-pMCeb6_k4Xsr6pHJuZGem-m5d6bEyqSBVTu17zDzEsv15tqFm7j1DWzghticFjGvFdoQdE2W0CPUF99caAMBnWV2ntImxCReDg2fkaCztVl7sEMPMKU6ogHFDHijznBSAWIUmg9ySpvjtyD_X2_tMNo2G00" alt="uml diagram">
+<p><strong>Update 1:</strong> Added the correct variant of Online XSS; renamed the one that was previously there to &quot;Precomputed proofs&quot;; added &quot;Exfiltration from Otherwise Secure Channel&quot;. Thanks, Neil!</p>
 
 </body>
 </html>
