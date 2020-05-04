@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Mix-Up Revisited.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+<link rel="stylesheet" href="file:///home/danielf/git/notes/style.css" type="text/css">
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="mix-up-revisited-draft">Mix-Up, Revisited [DRAFT]</h1>
+<ul>
+<li><a href="#mix-up-revisited-draft">Mix-Up, Revisited [DRAFT]</a>
+<ul>
+<li><a href="#basic-mix-up-example">Basic Mix-Up Example</a>
+<ul>
+<li><a href="#how-to-defend-against-mix-up">How to Defend Against Mix-Up?</a></li>
+</ul>
+</li>
+<li><a href="#with-oauth-metadata">With OAuth Metadata</a>
+<ul>
+<li><a href="#simple-mix-up">Simple Mix-Up</a></li>
+<li><a href="#mix-up-with-confidential-clients-and-pkce">Mix-Up with Confidential Clients and PKCE</a></li>
+<li><a href="#stealing-access-tokens">Stealing Access Tokens</a></li>
+<li><a href="#defending-against-mix-up-with-metadata">Defending Against Mix-Up with Metadata</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#mixup-with-par">Mixup With PAR</a></li>
+<li><a href="#integrity-of-the-authorization-request-with-par">Integrity of the Authorization Request with PAR</a></li>
+<li><a href="#mitigations">Mitigations</a></li>
+</ul>
+<p>A Mix-Up Attack on OAuth is an attack wherein the attacker manages to convince the client to send credentials (authorization code or access token) obtained from an &quot;honest&quot; authorization server to a server under the attacker's control.</p>
+<h2 id="basic-mix-up-example">Basic Mix-Up Example</h2>
+<p>Assume that a user wants to start an OAuth flow using the malicious OAuth provider (OP) <code>attacker.com</code>. That OP might hide its true identity or, in a large ecosystem, may be an OP that has been compromised.</p>
+<p>Even if all connections are properly secured via TLS, the following attack can be mounted by <code>attacker.com</code>:</p>
+<img src="https://plantuml.server.d3f.me/svg/fPHBIyGm4CVl-HG3mgAWBGXwADjz2EB5au-RiCHqreQjoP9C5JpusKtwe4dt8MBe8PdC_v_EBu-59MweVgyOsxgE57BB5S6DqPyMJHGJbKH5YT3lKPWJSR51uoVWf99l9GbjU1KbbLgXRRMiyuQBMM2PmRD5A8csDalJq9CDILxIgJEuruAJr2hRgqfvJUMBUc7GjRd1GXeKjAgDp7l9u9s6oRvDshcLBFAkn_tNBh6Rh0jSYP9N5Qetp6t9Bw-kJzNPJgBZJMv-9vua2LEQ48mdc84bxVuuW-KZa8PNXDfY0T96l2EOuKG6TxTFXy7C_MhHnXqZ-vscm_wr-d_0dAwrFqowqYPtDhC1Rhl8RsZ7-iqqzP7PdqW7s8RIGcXxQav2uVHY9ArzrEUvOcJBxxmPQoE_cY4RqYFS3nrBlyzxKCvz_RdeopbqVSBzFgAEBrDyPCPalMLAUeEgSLbze95hYIPNazQrHpiMzgjDecFYyGL7VFHmkDJ6Qzb4mTP2eBNhkcAe2l0onXQkwvwg7m00" alt="uml diagram">
+<p>In the attack, the attacker's authorization server redirects the user to an honest OP's authorization server. The attacker replaces the <code>client_id</code> provided by the client with the one that the client uses for <code>honest.com</code> and replaces the <code>code_challenge</code> parameter with a different value.</p>
+<p>After the uses authorizes access, the attacker is able to capture the code that was used in this flow, as it is sent to the attacker's token endpoint.</p>
+<p>The code is bound to the PKCE challenge known to the attacker. If the attacker has chosen k to be a value from another flow with the same client and honest.com as AS, the attacker can inject the code in that flow. (This requires an &quot;online&quot; attack, i.e., the attacker cannot collect codes first and then redeem them.)</p>
+<p>(This shows the authorization code grant, but the attack is applicable as well to the Implicit Grant.)</p>
+<h3 id="how-to-defend-against-mix-up">How to Defend Against Mix-Up?</h3>
+<p>The guiding principle in defending against Mix-Up Attacks is that the authorization server must make its identity clear to the relying party. Since a successful Mix-Up Attack necessarily involves an honest authorization server, this defence does not rely on the honesty of the attacker.</p>
+<p>The following two approaches can be used for this:</p>
+<ul>
+<li>An <code>iss</code> parameter in the authorization response could tell client.com about the identity of the authorization server that was used.</li>
+</ul>
+<img src="https://plantuml.server.d3f.me/svg/fLJBQiCm4BphAnOAeON6Xa9xC74UXT9BJttS0a6Ljx688nbfJQ67VdkbsC5IdFH1ZG_IQcPMErffReaRQhOLOxKRI25hhWXkZNwtQAAOg2GgIeJUHc5EnCK6ZL-0iqgkInBQy2e2bLgXRRciquRnD93CuCKYb4IrpT8qr6Gzo5CwTWOFMd2IMcL7MIblg5og9OFkcnaif451gyR8V4_fjTCGxBzHkxQIHTwDkF_R54EmBd0bIbvLgDQOsv9VNT-Sgui1qFbDRdqGJvA4AKq8nZkOWINjTfp1uWcaZKoE70mNChY_UpxjniodY4xhEpi_qxG_j9R_3mSdRzftaAwqoPtCj7UqJVAJduVypIJraUcVx0riwqiBJJjISn8I9-C3QkEZ7kUAaQr_bxkvDl9ZDsKzFBBxiVCIICCHAsU-_bpiomdBVwqQd8wajVcHJP-wN65ZX6bSTR_NZYzYA3_GS19GQBJWMXgsd4GPjt3VwTsJiJQ8QdTaYntEztzTOy5G5Lu46PkxeNkelW00" alt="uml diagram">
+<ul>
+<li>Encoding the authorization server's identity in the redirect_uri can help as well. In this case, the client compares the redirection endpoint where it expects the user to land with the one registered for the expected authorization server.</li>
+</ul>
+<img src="https://plantuml.server.d3f.me/svg/jLHDIyGm4BtdLmm8ek2s8EYXRFT3414yhUvDM68wRiDsav9C4JpusqssNPhibw0OUaWcyzxClEbaOeaRQjOLOwnsEobapHN1dT4V5ara4vL4HOdGwyZCYRXOeV4NS5R9PKb26rv5JgLMQ5iiwxXXC0eeCvXRX9AejbcQXfoiT_AG3ft1anQSf5RPGLJA6ofVrIk3ReqD5jAWe4LZPBw5zDpfy5tx8dMbJVvMDJZYDktJ7gR-UXGo-dNU4YnaaNSxxhysZtrdNU12bBogK2qnjoM_lhczK9TxZguhvExtx4cICAK9mNYPCx2aNLaPJ9z1sgWJaSpXHGOFzo_79Hlx455BJsd-bGOIjVZ_bZd4krYZNlQMvIVHT_6hOo5FzI3GjiyzLFQ0C4a870vse8stUZzNZ6n5ljgSjP6VcoFhtQEUp3h1WJJyLk-n5oaNsvgFZMZuv_mrH3pLOPJT3abh6vSBAizGW5Im_STWFdlSzcSNLMYqu6O5rfn46Sz6FqBTWxKqY6f3Cztu-S6gQomOgiAJ86CJjtNlv3S0" alt="uml diagram">
+<p><strong>Why does that work?</strong></p>
+<p>If OAuth Metadata or OpenID Connect Configuration are <em>not</em> used, one can expect that the client lives in an ecosystem where there is a clear connection between the selected OAuth Provider and the authorization server through some out-of-band mechanism. For example, a client could have multiple OAuth providers configured manually using a simple table as follows:</p>
+<table>
+<thead>
+<tr>
+<th>Provider</th>
+<th>Authorization Endpoint</th>
+<th>Token Endpoint</th>
+<th>Resource Server</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Awesome OAuth</td>
+<td>https://awesome.auth/authz</td>
+<td>https://awesome.auth/token</td>
+<td>https://awesome.auth/api</td>
+</tr>
+<tr>
+<td>Other Provider</td>
+<td>https://some.other.idp/login</td>
+<td>https://some.other.idp/te</td>
+<td>https://some.other.idp/</td>
+</tr>
+<tr>
+<td>Malicious OP</td>
+<td>https://malicious.auth/auth</td>
+<td>https://malicious.auth/token</td>
+<td>https://malicious.auth/res</td>
+</tr>
+<tr>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+</tbody>
+</table>
+<p><em>(Assumption here: There is an effective mechanism to stop the malicious OP from registering one of the benign authorization servers at the client.)</em></p>
+<p>This means that the client knows whether a particular authorization server belongs to a particular OAuth Provider (there is often a 1:1 mapping). The provider is identified using some internal mechanism. Therefore, if the client starts a flow using a particular provider, the authorization endpoint's identity is enough to check whether that authorization server belongs to the expected provider.</p>
+<p><strong>Is there a need to tie the code and the iss parameter together in the authorization response?</strong></p>
+<p>This is not needed if the authorization response is sent from the authorization server via the user's browser to the client and that there is no opportunity for the attacker to modify the response.</p>
+<p>If the attacker can modify the response, <a href="https://openid.net/specs/openid-financial-api-jarm-ID1.html#jwt-based-response-mode">JARM</a> could prevent tampering. The catch is that with metadata (see below), the attacker can control the keys used for signature verification. Therefore, there is no value in adding JARM.</p>
+<p>However, if the attacker can modify the response, he can also read the authorization code. For Mix-Up attacks targeting the authorization code, we can therefore assume that the attacker cannot modify the response, because otherwise, there would be no need for the attacker to mount a mix-up attack. For Mix-Up attacks targeting the access token, this is not so clear.</p>
+<h2 id="with-oauth-metadata">With OAuth Metadata</h2>
+<h3 id="simple-mix-up">Simple Mix-Up</h3>
+<p>Assume that an attacker sets up the following OAuth Metadata:</p>
+<pre class="hljs"><code><div>{
+    <span class="hljs-attr">"issuer"</span>: <span class="hljs-string">"https://attacker.com"</span>,
+    <span class="hljs-attr">"authorization_endpoint"</span>: <span class="hljs-string">"https://honest.com/authorize"</span>,
+    <span class="hljs-attr">"token_endpoint"</span>: <span class="hljs-string">"https://attacker.com/token"</span>
+}
+</div></code></pre>
+<p>(This is the setup presented in https://arxiv.org/pdf/1508.04324.pdf)</p>
+<p>In this case, the attack as above works as well. The client will send the user to the honest authorization endpoint, but then send the code to the manipulated token endpoint. The attacker can redeem the code for an access token at the token endpoint if the client is a public client.</p>
+<h3 id="mix-up-with-confidential-clients-and-pkce">Mix-Up with Confidential Clients and PKCE</h3>
+<p>That is nice, but if the client is a confidential client, the attacker cannot redeem the code for an authorization token. One way around this limitation is a <a href="https://tools.ietf.org/id/draft-ietf-oauth-security-topics-14.html#rfc.section.4.5">Code Injection Attack</a>. This attack is normally <a href="https://tools.ietf.org/id/draft-ietf-oauth-security-topics-14.html#rfc.section.4.5.3">protected against with PKCE</a>.</p>
+<p>Here, however, there is a way for the attacker to change the PKCE Challenge that is used for the authorization flow. To conduct this attack, the attacker uses his own endpoint in the Metadata:</p>
+<pre class="hljs"><code><div>{
+    <span class="hljs-attr">"issuer"</span>: <span class="hljs-string">"https://attacker.com"</span>,
+    <span class="hljs-attr">"authorization_endpoint"</span>: <span class="hljs-string">"https://attacker.com/authorize"</span>,
+    <span class="hljs-attr">"token_endpoint"</span>: <span class="hljs-string">"https://attacker.com/token"</span>
+}
+</div></code></pre>
+<p>When a user arrives at that endpoint, attacker starts an OAuth session with the <em>same</em> confidential client. From his session, the attacker extracts the PKCE Challenge and then redirects the user that arrived at the attacker's authorization endpoint  just as in the first example but replaces the PKCE Challenge by the one from his own session with the client.</p>
+<p>The attacker can then inject the code acquired from the user's session into his own session with the client. This attack is called a <a href="https://datatracker.ietf.org/meeting/105/materials/slides-105-oauth-sessa-oauth-security-topics-00">PKCE Chosen Challenge Attack</a>).</p>
+<h3 id="stealing-access-tokens">Stealing Access Tokens</h3>
+<p>It is possible to steal the access token as well using the following configuration:</p>
+<pre class="hljs"><code><div>{
+    <span class="hljs-attr">"issuer"</span>: <span class="hljs-string">"https://attacker.com"</span>,
+    <span class="hljs-attr">"authorization_endpoint"</span>: <span class="hljs-string">"https://honest.com/authorize"</span>,  # or attacker.com and then redirect
+    <span class="hljs-attr">"token_endpoint"</span>: <span class="hljs-string">"https://honest.com/token"</span>,
+    <span class="hljs-attr">"userinfo_endpoint"</span>: <span class="hljs-string">"https://attacker.com/userinfo"</span>
+}
+</div></code></pre>
+<h3 id="defending-against-mix-up-with-metadata">Defending Against Mix-Up with Metadata</h3>
+<p>The difference to the scenario without metadata is that the client now has an issuer URI and resolves the authorization server using the issuer URI. An attacker can, as shown, assign the honest authorization server to his own issuer. It is therefore necessary that the authorization server signals for which issuers it may be used, as that implies the issuer configurations and thereby the token and userinfo endpoints that are being used.</p>
+<p>Importantly, it is not enough that the autorization server identifies <em>itself</em> (i.e., using its URL or a redirection URI that is unique to itself), but it needs to identify the <em>issuer</em>.</p>
+<blockquote>
+<p><strong>Recommendation:</strong> The security BCP needs to make clear that <em>per-AS</em> redirect URIs are only sufficient if OAuth Metadata is not used to resolve multiple issuers. Otherwise, <em>per-Issuer</em> redirect URIs or the <code>iss</code> parameter MUST be used.</p>
+</blockquote>
+<h1 id="mixup-with-par">Mixup With PAR</h1>
+<p>What if put PAR into the mix? It complicates things.</p>
+<pre class="hljs"><code><div>{
+    <span class="hljs-attr">"issuer"</span>: <span class="hljs-string">"https://attacker.com"</span>,
+    <span class="hljs-attr">"pushed_authorization_request_endpoint"</span>: <span class="hljs-string">"https://attacker.com/par"</span>,
+    <span class="hljs-attr">"authorization_endpoint"</span>: <span class="hljs-string">"https://attacker.com/authorize"</span>,
+    <span class="hljs-attr">"token_endpoint"</span>: <span class="hljs-string">"https://attacker.com/token"</span>,
+    <span class="hljs-attr">"userinfo_endpoint"</span>: <span class="hljs-string">"https://attacker.com/userinfo"</span>
+}
+</div></code></pre>
+<p>We now have four endpoints that can be either set to the honest server's endpoints or the attacker's own endpoints. This makes 16 possible combinations.</p>
+<p>The following table lists the 16 possible combinations (<code>H</code>=honest server's endpoint, <code>A</code>=attacker's endpoint). The potential attacks that arise are referenced in the table, separated for public and confidential clients, and listed below.</p>
+<table>
+<thead>
+<tr>
+<th>PAR</th>
+<th>Authz</th>
+<th>Tok</th>
+<th>UInfo</th>
+<th>Attacks for public clients</th>
+<th>for confidential clients</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>H</code></td>
+<td><code>H</code></td>
+<td><code>H</code></td>
+<td><code>H</code></td>
+<td>no mix-up attack</td>
+<td>*</td>
+</tr>
+<tr>
+<td><code>H</code></td>
+<td><code>H</code></td>
+<td><code>H</code></td>
+<td><code>Att</code></td>
+<td>[token to UInfo]</td>
+<td>*</td>
+</tr>
+<tr>
+<td><code>H</code></td>
+<td><code>H</code></td>
+<td><code>Att</code></td>
+<td><code>H</code></td>
+<td>[code to Tok-PC] [token injection]</td>
+<td>* [code to Tok-NCI] [token injection]</td>
+</tr>
+<tr>
+<td><code>H</code></td>
+<td><code>H</code></td>
+<td><code>Att</code></td>
+<td><code>Att</code></td>
+<td>[code to Tok-PC]</td>
+<td>* [code to Tok-NCI]</td>
+</tr>
+<tr>
+<td><code>H</code></td>
+<td><code>Att</code></td>
+<td><code>H</code></td>
+<td><code>H</code></td>
+<td>no mix-up attack</td>
+<td>* same</td>
+</tr>
+<tr>
+<td><code>H</code></td>
+<td><code>Att</code></td>
+<td><code>H</code></td>
+<td><code>Att</code></td>
+<td>[token to UInfo]</td>
+<td>* same</td>
+</tr>
+<tr>
+<td><code>H</code></td>
+<td><code>Att</code></td>
+<td><code>Att</code></td>
+<td><code>H</code></td>
+<td>[code to Tok-PC] [token injection]</td>
+<td>* [code to Tok*] [token injection]</td>
+</tr>
+<tr>
+<td><code>H</code></td>
+<td><code>Att</code></td>
+<td><code>Att</code></td>
+<td><code>Att</code></td>
+<td>[code to Tok-PC]</td>
+<td>* [code to Tok*]</td>
+</tr>
+<tr>
+<td><code>Att</code></td>
+<td><code>H</code></td>
+<td><code>H</code></td>
+<td><code>H</code></td>
+<td>no mix-up attack</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>Att</code></td>
+<td><code>H</code></td>
+<td><code>H</code></td>
+<td><code>Att</code></td>
+<td>[token to UInfo]</td>
+<td>same</td>
+</tr>
+<tr>
+<td><code>Att</code></td>
+<td><code>H</code></td>
+<td><code>Att</code></td>
+<td><code>H</code></td>
+<td>[code to Tok-PC] [token injection]</td>
+<td>[code to Tok] [token injection]</td>
+</tr>
+<tr>
+<td><code>Att</code></td>
+<td><code>H</code></td>
+<td><code>Att</code></td>
+<td><code>Att</code></td>
+<td>[code to Tok-PC]</td>
+<td>[code to Tok]</td>
+</tr>
+<tr>
+<td><code>Att</code></td>
+<td><code>Att</code></td>
+<td><code>H</code></td>
+<td><code>H</code></td>
+<td>no mix-up attack</td>
+<td>same</td>
+</tr>
+<tr>
+<td><code>Att</code></td>
+<td><code>Att</code></td>
+<td><code>H</code></td>
+<td><code>Att</code></td>
+<td>[token to UInfo]</td>
+<td>same</td>
+</tr>
+<tr>
+<td><code>Att</code></td>
+<td><code>Att</code></td>
+<td><code>Att</code></td>
+<td><code>H</code></td>
+<td>[code to Tok-PC]</td>
+<td>[code to Tok]</td>
+</tr>
+<tr>
+<td><code>Att</code></td>
+<td><code>Att</code></td>
+<td><code>Att</code></td>
+<td><code>Att</code></td>
+<td>[code to Tok-PC]</td>
+<td>[code to Tok]</td>
+</tr>
+</tbody>
+</table>
+<p>[*] or no mix-up depending on deployment - client credentials might not match the ones that need to be presented</p>
+<p>Mix-Up Attacks:</p>
+<ul>
+<li>[token to UInfo]: Token is sent to attacker's endpoint as shown above.</li>
+<li>[code to Tok-PC]: Code is sent to attacker's endpoint as shown above. Code is readily usable by the attacker as it is not issued for a confidential client.</li>
+<li>[code to Tok-NCI]: Code is sent to attacker's endpoint as shown above. Code injection is prevented as the    attacker cannot exchange the PKCE Challenge.</li>
+<li>[code to Tok]: Code is sent to attacker's endpoint as shown above. Attacker can inject the stolen code using code injection with PKCE Chosen Challenge as shown above.</li>
+<li>[code to Tok*]: Code is sent to attacker's endpoint as shown above. If the authorization server accepts non-PAR requests, the attacker can inject the stolen code using code injection with PKCE Chosen Challenge as shown above.</li>
+<li>[token injection]: The attacker can send an access token to the client that is then used by the client for the resource server. This can defeat sender-constrained tokens, <a href="https://arxiv.org/abs/1901.11520">as described in this paper</a>.</li>
+<li>[authz-mitm]: The attacker can change all contents of the authorization request.</li>
+</ul>
+<p>Other attacks:</p>
+<ul>
+<li>If the authorization endpoint points to the attacker, the attacker can break session integrity, i.e., logging in the user under a different identity.</li>
+<li>If the UserInfo endpoint points to the attacker, the attacker can send spoofed user information to the client.</li>
+<li>PAR promises integrity for the authorization request. This can be undermined in certain conditions, see below.</li>
+</ul>
+<h1 id="integrity-of-the-authorization-request-with-par">Integrity of the Authorization Request with PAR</h1>
+<p>PAR with client authentication promises integrity for the authorization request by sending all the data of the authorization request via the backend.</p>
+<ol>
+<li>If the PAR endpoint does not point to an attacker's endpoint, PAR protects against attack variants where the attacker exchanges the PKCE Challenge. The attacker can, however, still forward the whole authorization request with the <code>request_uri</code> to the victim, and if the victim authorizes the request, the attacker can  grab the code.</li>
+<li>If the PAR endpoint points to the attacker, the attacker has the option of taking the parameters from the PAR request, changing them into URL parameters (and maybe manipulating them), and creating an authorization request URL from them. If the authorization endpoint also points to an endpoint of the attacker, the attacker can just forward the user to the newly created authorization request URL at the honest server. If the authorization endpoint is not under the control of the attacker, the attacker can try to use HTTP request parameter pollution to influence the authorization request the client sends to the authorization server.</li>
+</ol>
+<blockquote>
+<p>Recommendation: PAR-enabled authorization servers can <strong>protect the integrity better</strong> and <strong>protect against Mix-Up Attacks better</strong> if they ONLY accept PAR requests.</p>
+</blockquote>
+<h1 id="mitigations">Mitigations</h1>
+<ul>
+<li>Adding an <code>iss</code> parameter to the PAR request will probably not solve the problem; the AS can still be mixed-up.</li>
+<li>The <code>iss</code> parameter in the authorization response (and a check performed by the client) solves all mix-up variants listed above.</li>
+<li>A per-issuer-redirect uri can be confused with a per-AS-redirect URI, the latter would not solve mix-up.</li>
+</ul>
+<blockquote>
+<p>Recommendation: Emphasize importance of <code>iss</code> parameter (or <code>issuer</code>) in authorization response. Maybe introduce this parameter in the security BCP or another document?</p>
+</blockquote>
+<ul>
+<li>As described above, there is probably no value in adding JARM to protect the issuer parameter in the authorization response.</li>
+<li>Attacks where the token endpoint is at the honest AS and the userinfo endpoint or another resource is at the attacker can be mitigated by using sender-constrained access tokens. An attacker would not be able to replay the token at another endpoint.</li>
+</ul>
+<blockquote>
+<p>Sender-constrained access tokens rock.</p>
+</blockquote>
+<blockquote>
+<p>Sender-constraining the authorization code (PAR + PAR-DPoP?) might be worth looking into.</p>
+</blockquote>
+
+</body>
+</html>
